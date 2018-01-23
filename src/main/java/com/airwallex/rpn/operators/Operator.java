@@ -2,24 +2,39 @@ package com.airwallex.rpn.operators;
 
 import com.airwallex.rpn.Command;
 import com.airwallex.rpn.NumberStack;
+import com.airwallex.rpn.UndoHistory;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 public enum Operator {
 
-    ADD("+"), SUBTRACT("-"), MULTIPLY("*"), DIVIDE("/"), SQRT("sqrt"), UNDO("undo"), CLEAR("clear");
+    PUSH_NUMBER("", PushNumber::new),
+    ADD("+", Add::new),
+    SUBTRACT("-", Subtract::new),
+    MULTIPLY("*", Multiply::new),
+    DIVIDE("/", Divide::new),
+    SQRT("sqrt", Sqrt::new),
+    UNDO("undo", Undo::new),
+    CLEAR("clear", Clear::new);
 
     private String value;
+    private Supplier<? extends NumberStackCommand> supplier;
 
-    Operator(String value) {
+    Operator(String value, Supplier<? extends NumberStackCommand> supplier) {
         this.value = value;
+        this.supplier = supplier;
     }
 
-    public Command createCommand(NumberStack numberStack) {
-        // TODO:
+    public Command createCommand(NumberStack numberStack, UndoHistory undoHistory, String operatorValue, int operatorPosition) {
+        NumberStackCommand command = supplier.get();
+        command.setNumberStack(numberStack);
+        command.setUndoHistory(undoHistory);
+        command.setOperatorValue(operatorValue);
+        command.setOperatorPosition(operatorPosition);
 
-        return null;
+        return command;
     }
 
     public static Optional<Operator> findByValue(String value) {

@@ -2,7 +2,7 @@ package com.airwallex.rpn.operators;
 
 import java.math.BigDecimal;
 
-class Subtract extends BinaryOperator {
+class Subtract extends BinaryMathOperatorCommand {
 
     @Override
     protected BigDecimal calculate(BigDecimal left, BigDecimal right) {

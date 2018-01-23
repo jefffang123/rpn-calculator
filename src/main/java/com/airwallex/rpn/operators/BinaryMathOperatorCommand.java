@@ -1,6 +1,6 @@
 package com.airwallex.rpn.operators;
 
-abstract class BinaryOperator extends ArithmeticOperator {
+abstract class BinaryMathOperatorCommand extends MathOperatorCommand {
 
     @Override
     protected final boolean isBinary() {

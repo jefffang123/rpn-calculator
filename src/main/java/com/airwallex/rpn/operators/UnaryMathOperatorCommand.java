@@ -2,7 +2,7 @@ package com.airwallex.rpn.operators;
 
 import java.math.BigDecimal;
 
-abstract class UnaryOperator extends ArithmeticOperator {
+abstract class UnaryMathOperatorCommand extends MathOperatorCommand {
 
     @Override
     protected final boolean isBinary() {
