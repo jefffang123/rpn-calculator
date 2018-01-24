@@ -15,6 +15,8 @@ public class Calculator {
     private final UndoHistory undoHistory = new UndoHistory();
 
     public void run() {
+        System.out.println("Please enter number or operator separated by space:");
+
         Scanner scanner = new Scanner(System.in);
 
         String line;
