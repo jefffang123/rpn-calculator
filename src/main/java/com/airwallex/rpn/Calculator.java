@@ -4,9 +4,12 @@ import com.airwallex.rpn.operators.Operator;
 
 import java.util.Objects;
 import java.util.Scanner;
-import java.util.stream.Stream;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Calculator {
+
+    private static final Pattern LINE_PATTERN = Pattern.compile("\\S+");
 
     private final NumberStack numberStack = new NumberStack();
     private final UndoHistory undoHistory = new UndoHistory();
@@ -33,14 +36,17 @@ public class Calculator {
     }
 
     void processLine(String line) {
-        Stream.of(line.split("\\s+")).forEach(this::processValue);
+        Matcher matcher = LINE_PATTERN.matcher(line);
+        while (matcher.find()) {
+            processValue(matcher.group(), matcher.start() + 1);
+        }
     }
 
-    private void processValue(String value) {
+    private void processValue(String value, int position) {
         Operator op = Operator.findByValue(value).orElse(null);
         Objects.requireNonNull(op, "invalid number or unknown operator: '" + value + "'");
 
-        op.createCommand(numberStack, undoHistory, value, 1).execute();
+        op.createCommand(numberStack, undoHistory, value, position).execute();
     }
 
     public String getStackMessage() {
