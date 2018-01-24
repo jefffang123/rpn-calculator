@@ -15,29 +15,29 @@ public class Calculator {
     private final UndoHistory undoHistory = new UndoHistory();
 
     public void run() {
-        System.out.println("Please enter number or operator separated by space:");
+        System.out.println("Please enter number or operator separated by space, type 'exit' to quit.");
 
-        Scanner scanner = new Scanner(System.in);
+        try (Scanner scanner = new Scanner(System.in)) {
+            String line;
+            while (true) {
+                line = scanner.nextLine();
+                if ("exit".equalsIgnoreCase(line)) {
+                    break;
+                }
 
-        String line;
-        while (true) {
-            line = scanner.nextLine();
-            if ("exit".equalsIgnoreCase(line)) {
-                break;
-            }
-
-            try {
-                processLine(line);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                break;
-            } finally {
-                System.out.println("stack: " + numberStack);
+                try {
+                    processLine(line);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    break;
+                } finally {
+                    System.out.println("stack: " + numberStack);
+                }
             }
         }
     }
 
-    void processLine(String line) {
+    public void processLine(String line) {
         Matcher matcher = LINE_PATTERN.matcher(line);
         while (matcher.find()) {
             processValue(matcher.group(), matcher.start() + 1);

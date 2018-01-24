@@ -93,6 +93,6 @@ public class OperatorTest {
 
         Command command = op.createCommand(numberStack, undoHistory, operatorValue, 10);
 
-        assertTrue(commandClass.isAssignableFrom(command.getClass()));
+        assertTrue(commandClass.isInstance(command));
     }
 }

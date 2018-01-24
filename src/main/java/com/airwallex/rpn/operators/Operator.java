@@ -31,6 +31,7 @@ public enum Operator {
 
     public Command createCommand(NumberStack numberStack, UndoHistory undoHistory, String operatorValue, int operatorPosition) {
         NumberStackCommand command = supplier.get();
+
         command.setNumberStack(numberStack);
         command.setUndoHistory(undoHistory);
         command.setOperatorValue(operatorValue);

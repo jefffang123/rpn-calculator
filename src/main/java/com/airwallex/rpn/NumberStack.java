@@ -1,6 +1,7 @@
 package com.airwallex.rpn;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -45,7 +46,7 @@ public class NumberStack {
     }
 
     private static String formatNumber(BigDecimal number) {
-        BigDecimal bd = number.setScale(10, BigDecimal.ROUND_DOWN);
+        BigDecimal bd = number.setScale(10, RoundingMode.DOWN);
 
         NumberFormat f = NumberFormat.getInstance();
         f.setMaximumFractionDigits(10);
