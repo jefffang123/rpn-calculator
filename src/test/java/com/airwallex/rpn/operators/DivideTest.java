@@ -5,7 +5,6 @@ import com.airwallex.rpn.NumberStack;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.util.NoSuchElementException;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -29,6 +28,7 @@ public class DivideTest extends NumberStackCommandTest<Divide> {
 
     @Test
     public void testExecute() {
+        when(numbers.size()).thenReturn(2);
         when(numbers.pop()).thenReturn(BigDecimal.valueOf(4), BigDecimal.ONE);
         command.execute();
         verify(numbers).push(BigDecimal.valueOf(0.25));
@@ -43,7 +43,7 @@ public class DivideTest extends NumberStackCommandTest<Divide> {
         expectedEx.expect(InsufficientParameterException.class);
         expectedEx.expectMessage("operator / (position: 15): insufficient parameters");
 
-        when(numbers.pop()).thenReturn(BigDecimal.ONE).thenThrow(NoSuchElementException.class);
+        when(numbers.size()).thenReturn(1);
         command.execute();
     }
 

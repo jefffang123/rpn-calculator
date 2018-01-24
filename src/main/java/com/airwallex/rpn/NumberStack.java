@@ -27,6 +27,10 @@ public class NumberStack {
         return stack.isEmpty();
     }
 
+    public int size() {
+        return stack.size();
+    }
+
     public void copyFrom(NumberStack other) {
         stack.clear();
         stack.addAll(other.stack);

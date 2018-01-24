@@ -5,7 +5,6 @@ import com.airwallex.rpn.NumberStack;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.util.NoSuchElementException;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -26,6 +25,7 @@ public class SqrtTest extends NumberStackCommandTest<Sqrt> {
 
     @Test
     public void testExecute() {
+        when(numbers.size()).thenReturn(1);
         when(numbers.pop()).thenReturn(BigDecimal.valueOf(4));
         command.execute();
         verify(numbers).push(BigDecimal.valueOf(2));
@@ -40,7 +40,7 @@ public class SqrtTest extends NumberStackCommandTest<Sqrt> {
         expectedEx.expect(InsufficientParameterException.class);
         expectedEx.expectMessage("operator sqrt (position: 15): insufficient parameters");
 
-        when(numbers.pop()).thenThrow(NoSuchElementException.class);
+        when(numbers.size()).thenReturn(0);
         command.execute();
     }
 

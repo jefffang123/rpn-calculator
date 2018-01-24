@@ -42,4 +42,16 @@ public class ClearTest extends NumberStackCommandTest<Clear> {
         command.undo();
         assertEquals("1 10", numbers.toString());
     }
+
+    @Test
+    public void shouldBehaveProperlyOnEmptyStack() {
+        numbers = new NumberStack();
+        command.setNumberStack(numbers);
+
+        command.execute();
+        assertEquals("", numbers.toString());
+
+        command.undo();
+        assertEquals("", numbers.toString());
+    }
 }

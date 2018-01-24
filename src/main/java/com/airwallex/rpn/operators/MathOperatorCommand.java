@@ -4,7 +4,6 @@ import com.airwallex.rpn.InsufficientParameterException;
 import com.airwallex.rpn.Undoable;
 
 import java.math.BigDecimal;
-import java.util.NoSuchElementException;
 
 abstract class MathOperatorCommand extends NumberStackCommand implements Undoable {
 
@@ -13,11 +12,7 @@ abstract class MathOperatorCommand extends NumberStackCommand implements Undoabl
 
     @Override
     public final void execute() {
-        try {
-            takeOperands();
-        } catch (NoSuchElementException e) {
-            throw new InsufficientParameterException(operatorValue, operatorPosition);
-        }
+        takeOperands();
 
         BigDecimal result = calculate(left, right);
         numberStack.push(result);
@@ -28,6 +23,7 @@ abstract class MathOperatorCommand extends NumberStackCommand implements Undoabl
     @Override
     public final void undo() {
         numberStack.pop();
+
         numberStack.push(left);
         if (isBinary()) {
             numberStack.push(right);
@@ -35,6 +31,11 @@ abstract class MathOperatorCommand extends NumberStackCommand implements Undoabl
     }
 
     private void takeOperands() {
+        if (isBinary() && numberStack.size() < 2 ||
+                !isBinary() && numberStack.size() < 1) {
+            throw new InsufficientParameterException(operatorValue, operatorPosition);
+        }
+
         if (isBinary()) {
             right = numberStack.pop();
         }
