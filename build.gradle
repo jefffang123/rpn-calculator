@@ -1,5 +1,9 @@
-apply plugin: 'java'
-apply plugin: 'application'
+plugins {
+    id 'java'
+    id 'application'
+    id 'jacoco'
+    id 'com.github.kt3k.coveralls'
+}
 
 repositories {
     jcenter()
@@ -8,6 +12,13 @@ repositories {
 dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.+'
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true // coveralls plugin depends on xml format report
+        html.enabled = true
+    }
 }
 
 mainClassName = 'com.airwallex.rpn.Calculator'
